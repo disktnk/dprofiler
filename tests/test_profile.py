@@ -1,3 +1,4 @@
+import contextlib
 import logging
 import os
 import shutil
@@ -26,24 +27,31 @@ class TestProfile(unittest.TestCase):
 
         fn()
 
-    def test_profile_own_logger(self):
-
+    @contextlib.contextmanager
+    def _get_file_logger(self, path):
         logger = logging.getLogger('TestProfile')
         logger.setLevel(logging.DEBUG)
-        path = os.path.join(self._dir, 'test_profile_own_logger.log')
         fh = logging.FileHandler(path)
         logger.addHandler(fh)
 
+        try:
+            yield logger
+        finally:
+            logger.removeHandler(fh)
+
+    def test_profile_own_logger(self):
+        path = os.path.join(self._dir, 'test_profile_own_logger.log')
         prefix = 'start'
         suffix = 'end'
 
-        @profile(
-            sort_key='pcalls', prefix=prefix, suffix=suffix, n=2,
-            logger=logger)
-        def fn():
-            pass
+        with self._get_file_logger(path) as logger:
+            @profile(
+                sort_key='pcalls', prefix=prefix, suffix=suffix, n=2,
+                logger=logger)
+            def fn():
+                pass
 
-        fn()
+            fn()
 
         with open(path, mode='r') as f:
             out = f.read()
