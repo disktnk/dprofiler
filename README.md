@@ -1,8 +1,16 @@
 # dprofiler
 
+
+[![PyPI](https://img.shields.io/pypi/v/dprofiler.svg)](https://pypi.org/project/dprofiler/)
+[![Build Status](https://travis-ci.org/disktnk/dprofiler.svg?branch=master)](https://travis-ci.org/disktnk/dprofiler)
+[![Build status](https://ci.appveyor.com/api/projects/status/d304h5xmycq4t3ls/branch/master?svg=true)](https://ci.appveyor.com/project/disktnk/dprofiler/branch/master)
+[![codecov](https://codecov.io/gh/disktnk/dprofiler/branch/master/graph/badge.svg)](https://codecov.io/gh/disktnk/dprofiler)
+
+wrap `cProfile` and `profile` modules, use as decorator.
+
 ## Support
 
-- Python 2.7.15+ / 3.6.6+
+- Python 2.7.15+ / 3.5+ / 3.6+
 
 ## Install
 
