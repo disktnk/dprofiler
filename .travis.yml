@@ -11,7 +11,7 @@ sudo: false
 
 before_install:
   - pip install autopep8 hacking
-  - pip install -U pytest pytest-cov coveralls
+  - pip install -U pytest pytest-cov codecov
 
 install:
   - pip install -e .
@@ -19,10 +19,11 @@ install:
 script:
   - flake8 dprofiler tests
   - pytest --cov dprofiler
+  - codecov
 
 after_success:
   - flake8
-  - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then COVERALLS_TOKEN=$COVERALLS_TOKEN coveralls; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then codecov --token=$CODECOV_TOKEN; fi
 
 deploy:
   - provider: pypi
