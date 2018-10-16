@@ -1,0 +1,34 @@
+language: python
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+
+notifactions:
+  email: false
+
+sudo: false
+
+before_install:
+  - pip install autopep8 hacking
+  - pip install -U pytest pytest-cov coveralls
+
+install:
+  - pip install -e .
+
+script:
+  - flake8 dprofiler tests
+  - pytest --cov dprofiler
+
+after_success:
+  - flake8
+  - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then COVERALLS_TOKEN=$COVERALLS_TOKEN coveralls; fi
+
+deploy:
+  - provider: pypi
+    user: $PYPI_MAINTAINER_NAME
+    password: $PYPI_MAINTAINER_PASS
+    on:
+      tags: true
+      python: 3.6
+    allow_failure: false
