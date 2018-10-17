@@ -22,7 +22,6 @@ script:
   - codecov
 
 after_success:
-  - flake8
   - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then codecov --token=$CODECOV_TOKEN; fi
 
 deploy:
